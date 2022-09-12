@@ -18,16 +18,20 @@ var food;
 var rabbit;
 
 var botao
+var blink,eat,sad;
 
-function preload()
-{
+function preload(){
   bg_img = loadImage('background.png');
   food = loadImage('melon.png');
   rabbit = loadImage('Rabbit-01.png');
+
+  blink = loadAnimation("blink_1.png","blink_2.png","blink_3.png");
+  eat = loadAnimation("eat_0.png" , "eat_1.png","eat_2.png","eat_3.png","eat_4.png");
+  sad = loadAnimation("sad_1.png","sad_2.png","sad_3.png");
+  
 }
 
-function setup() 
-{
+function setup() {
   createCanvas(500,700);
   frameRate(80);
   engine = Engine.create();
@@ -44,28 +48,32 @@ function setup()
   ellipseMode(RADIUS);
   textSize(50)
   imageMode(CENTER);
+
+  blink.frameDelay = 20;
+  eat.frameDelay = 20;
+  sad.frameDelay = 20;
   
-  botao =  createImg ("cut_btn.png")
- botao.position (220,30)
- botao.size (50,50)
- botao.mouseClicked (deletelink)
+  botao =  createImg ("cut_btn.png");
+  botao.position (220,30);
+  botao.size (50,50);
+  botao.mouseClicked (deletelink);
+
+
 }
+
 function deletelink (){
- rope.break ()
- fruit_con.detach ()
+ rope.break ();
+ fruit_con.detach ();
 }
 
-function draw() 
-{
+function draw() {
   background(51);
-
   image(bg_img,width/2,height/2,490,690);
+  drawSprites();
 
   image(food,fruit.position.x,fruit.position.y,70,70);
   rope.show();
   Engine.update(engine);
   ground.show();
-
- 
-   
+  
 }
