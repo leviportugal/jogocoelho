@@ -12,7 +12,7 @@ let world;
 var ground;
 var fruit,rope;
 var fruit_con;
-
+var coelho;
 var bg_img;
 var food;
 var rabbit;
@@ -28,7 +28,8 @@ function preload(){
   blink = loadAnimation("blink_1.png","blink_2.png","blink_3.png");
   eat = loadAnimation("eat_0.png" , "eat_1.png","eat_2.png","eat_3.png","eat_4.png");
   sad = loadAnimation("sad_1.png","sad_2.png","sad_3.png");
-  
+  eat.looping = false
+  sad.looping = false
 }
 
 function setup() {
@@ -57,8 +58,13 @@ function setup() {
   botao.position (220,30);
   botao.size (50,50);
   botao.mouseClicked (deletelink);
+  
+  coelho = createSprite (30,600,50,80)
+  coelho.addAnimation ("coelho_pisc",blink)
+  coelho.scale = 0.2
 
-
+  coelho.addAnimation ("coelho_come",eat)
+  coelho.addAnimation ("coelho_trist",sad)
 }
 
 function deletelink (){
@@ -66,14 +72,39 @@ function deletelink (){
  fruit_con.detach ();
 }
 
+function coelho_collid (body,sprite){
+if(body != null){
+var d = dist (body.position.x, body.position.y,sprite.position.x,sprite.position.y)
+if(d <= 80){
+World.remove (world,body)
+fruit = null
+return true
+}
+else {
+return false
+}
+
+}
+
+}
+
 function draw() {
   background(51);
   image(bg_img,width/2,height/2,490,690);
   drawSprites();
-
-  image(food,fruit.position.x,fruit.position.y,70,70);
+  if(fruit != null){
+    image(food,fruit.position.x,fruit.position.y,70,70);
+  }
+  
   rope.show();
   Engine.update(engine);
   ground.show();
+  
+  if(coelho_collid (fruit,coelho)){
+   coelho.changeAnimation ("coelho_come")
+  }
+  if(coelho_collid (fruit,ground.body)){
+   coelho.changeAnimation ("coelho_trist")
+  } 
   
 }
