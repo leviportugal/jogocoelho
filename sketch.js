@@ -92,6 +92,7 @@ function setup() {
 function deletelink (){
  rope.break ();
  fruit_con.detach ();
+ cut_sound.play ()
 }
 
 function coelho_collid (body,sprite){
@@ -124,19 +125,26 @@ function draw() {
   
   if(coelho_collid (fruit,coelho)){
    coelho.changeAnimation ("coelho_come")
+   eating_sound.play ()
   }
   if(coelho_collid (fruit,ground.body)){
    coelho.changeAnimation ("coelho_trist")
+   sad_sound.play ()
   } 
   
 }
 
 function airblow(){
   Matter.Body.applyForce(fruit,{x:0,y:0},{x:0.01,y:0});  // APLICAÇÃO DE FORÇA 
-  
+  air.play ()
 }
 
 
 function mute(){
-  
+  if (bk_song.isPlaying ()){
+  bk_song.stop ()
+  }
+  else {
+    bk_song.play ()
+  }
 }
