@@ -17,13 +17,25 @@ var bg_img;
 var food;
 var rabbit;
 
-var botao
+var botao, blower, mute_btn;
 var blink,eat,sad;
+
+var bk_song;  // SOM DO BG
+var cut_sound;  // SOM CORTANTO A CORDA
+var sad_sound;  // SOM TRISTE
+var eating_sound; // SOM COMENDO
+var air;  /// SOM DO AR
 
 function preload(){
   bg_img = loadImage('background.png');
   food = loadImage('melon.png');
   rabbit = loadImage('Rabbit-01.png');
+
+  bk_song = loadSound('sound1.mp3');
+  sad_sound = loadSound("sad.wav")
+  cut_sound = loadSound('rope_cut.mp3');
+  eating_sound = loadSound('eating_sound.mp3');
+  air = loadSound('air.wav');
 
   blink = loadAnimation("blink_1.png","blink_2.png","blink_3.png");
   eat = loadAnimation("eat_0.png" , "eat_1.png","eat_2.png","eat_3.png","eat_4.png");
@@ -59,6 +71,16 @@ function setup() {
   botao.size (50,50);
   botao.mouseClicked (deletelink);
   
+  blower = createImg('balloon.png');
+  blower.position(10,250);
+  blower.size(150,100);
+  blower.mouseClicked(airblow);
+
+  mute_btn = createImg('mute.png');
+  mute_btn.position(450,20);
+  mute_btn.size(50,50);
+  mute_btn.mouseClicked(mute);
+
   coelho = createSprite (30,600,50,80)
   coelho.addAnimation ("coelho_pisc",blink)
   coelho.scale = 0.2
@@ -106,5 +128,15 @@ function draw() {
   if(coelho_collid (fruit,ground.body)){
    coelho.changeAnimation ("coelho_trist")
   } 
+  
+}
+
+function airblow(){
+  Matter.Body.applyForce(fruit,{x:0,y:0},{x:0.01,y:0});  // APLICAÇÃO DE FORÇA 
+  
+}
+
+
+function mute(){
   
 }
