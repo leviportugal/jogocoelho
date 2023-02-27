@@ -26,6 +26,8 @@ var sad_sound;  // SOM TRISTE
 var eating_sound; // SOM COMENDO
 var air;  /// SOM DO AR
 
+var canH, canW;
+
 function preload(){
   bg_img = loadImage('background.png');
   food = loadImage('melon.png');
@@ -46,6 +48,8 @@ function preload(){
 
 function setup() {
   createCanvas(500,700);
+  
+
   frameRate(80);
   engine = Engine.create();
   world = engine.world;
@@ -55,7 +59,7 @@ function setup() {
   rope2 = new Rope(7,{x:370,y:40});
   rope3 = new Rope(4,{x:440,y:225});
 
-  fruit = Bodies.circle(300,300,20);
+  fruit = Bodies.circle(270,300,20);
   Matter.Composite.add(rope.body,fruit);
 
   fruit_con = new Link(rope,fruit);
@@ -66,7 +70,7 @@ function setup() {
   rectMode(CENTER);
   ellipseMode(RADIUS);
   textSize(50)
-  imageMode(CENTER);
+ 
 
   blink.frameDelay = 20;
   eat.frameDelay = 20;
@@ -145,7 +149,9 @@ return false
 
 function draw() {
   background(51);
-  image(bg_img,width/2,height/2,490,690);
+  //image(bg_img,width/2,height/2,490,690);
+  image(bg_img,0,0,displayWidth+80,displayHeight);
+
   drawSprites();
   if(fruit != null){
     image(food,fruit.position.x,fruit.position.y,70,70);
@@ -161,10 +167,17 @@ function draw() {
    coelho.changeAnimation ("coelho_come")
    eating_sound.play ()
   }
-  if(coelho_collid (fruit,ground.body)){
-   coelho.changeAnimation ("coelho_trist")
-   sad_sound.play ()
-  } 
+  // if(coelho_collid (fruit,ground.body)){
+  //  coelho.changeAnimation ("coelho_trist")
+  //  sad_sound.play ()
+  // } 
+
+  if(fruit!=null && fruit.position.y>=650) {
+    coelho.changeAnimation("coelho_trist");
+    bk_song.stop();
+    sad_sound.play();   
+    fruit=null;
+  }
   
 }
 
