@@ -51,11 +51,17 @@ function setup() {
   world = engine.world;
   ground = new Ground(200,680,600,20);
 
-  rope = new Rope(7,{x:245,y:30});
+  rope = new Rope(7,{x:145,y:30});
+  rope2 = new Rope(7,{x:370,y:40});
+  rope3 = new Rope(4,{x:440,y:225});
+
   fruit = Bodies.circle(300,300,20);
   Matter.Composite.add(rope.body,fruit);
 
   fruit_con = new Link(rope,fruit);
+  fruit_con_2 = new Link(rope2,fruit);
+  fruit_con_3 = new Link(rope3,fruit);
+
 
   rectMode(CENTER);
   ellipseMode(RADIUS);
@@ -67,9 +73,22 @@ function setup() {
   sad.frameDelay = 20;
   
   botao =  createImg ("cut_btn.png");
-  botao.position (220,30);
+  botao.position (120,30);
   botao.size (50,50);
   botao.mouseClicked (deletelink);
+
+  //botão 2
+  button2 = createImg('cut_btn.png');
+  button2.position(330,35);
+  button2.size(60,60);
+  button2.mouseClicked(drop2);
+
+  //botão 3
+  button3 = createImg('cut_btn.png');
+  button3.position(400,200);
+  button3.size(60,60);
+  button3.mouseClicked(drop3);
+
   
   blower = createImg('balloon.png');
   blower.position(10,250);
@@ -92,6 +111,19 @@ function setup() {
 function deletelink (){
  rope.break ();
  fruit_con.detach ();
+}
+
+function drop2(){
+  cut_sound.play();   
+  rope2.break();
+  fruit_con_2.detach();
+  fruit_con_2 = null; 
+}
+function drop3(){
+  cut_sound.play();   
+  rope3.break();
+  fruit_con_3.detach();
+  fruit_con_3 = null; 
 }
 
 function coelho_collid (body,sprite){
@@ -119,6 +151,8 @@ function draw() {
   }
   
   rope.show();
+  rope2.show();
+  rope3.show();
   Engine.update(engine);
   ground.show();
   
