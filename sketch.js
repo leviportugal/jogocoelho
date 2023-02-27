@@ -47,13 +47,25 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(500,700);
+
+  var mobile = /iPhone|iPod|iPad|Android/i.test (navigator.userAgent)
+if (mobile){
+canW = displayWidth
+canH = displayHeight
+createCanvas (displayWidth +80, displayHeight)
+}
+else {
+  canW = windowWidth
+  canH = windowHeight
+  createCanvas (windowWidth , windowHeight)
   
+}
+
 
   frameRate(80);
   engine = Engine.create();
   world = engine.world;
-  ground = new Ground(200,680,600,20);
+  ground = new Ground(200,canH,600,20);
 
   rope = new Rope(7,{x:145,y:30});
   rope2 = new Rope(7,{x:370,y:40});
@@ -104,7 +116,7 @@ function setup() {
   mute_btn.size(50,50);
   mute_btn.mouseClicked(mute);
 
-  coelho = createSprite (30,600,50,80)
+  coelho = createSprite (30,canH-80,50,80)
   coelho.addAnimation ("coelho_pisc",blink)
   coelho.scale = 0.2
 
@@ -153,10 +165,12 @@ function draw() {
   image(bg_img,0,0,displayWidth+80,displayHeight);
 
   drawSprites();
+  push ()
+  imageMode (CENTER)
   if(fruit != null){
     image(food,fruit.position.x,fruit.position.y,70,70);
   }
-  
+  pop ()
   rope.show();
   rope2.show();
   rope3.show();
